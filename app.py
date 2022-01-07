@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
@@ -19,6 +20,9 @@ def index():
         todos.append(add_task.task.data)
         return redirect('/')
     return render_template("index.html", todos = todos, add_task=add_task)
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
     
 
 
