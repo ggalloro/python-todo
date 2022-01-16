@@ -8,8 +8,8 @@
 <body>
    <h1>TO DO LIST</h1>
     <ul>
-    {% for todo in todos %}   
-    <li>{{ todo }}</li>
+    {% for task in tasks %}   
+    <li>{{ task.name }}</li>
     {% endfor %}
    </ul>
    <form action="/" method="POST">

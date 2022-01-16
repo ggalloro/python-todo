@@ -2,3 +2,6 @@ Flask==2.0.2
 gunicorn==20.1.0
 flask_wtf
 wtforms
+sqlalchemy
+flask_sqlalchemy
+pymysql
