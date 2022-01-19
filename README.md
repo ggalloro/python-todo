@@ -1,4 +1,4 @@
 # python-todo
 
-Simple Python Flask App
+Simple Python Flask TODO App using a MySQL DB
 
