@@ -3,19 +3,62 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TO DO LIST</title>
+    <title>COSE BELLE DA FARE INSIEME</title>
 </head>
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th {
+    text-align: left;
+  }
+  form {
+    border: 1px solid black;
+  }
+</style>
 <body>
-   <h1>TO DO LIST</h1>
-    <ul>
-    {% for task in tasks %}   
-    <li>{{ task }}</li>
-    {% endfor %}
-   </ul>
-   <form action="/" method="POST">
+   <h1>COSE BELLE DA FARE INSIEME</h1>
+   <br>
+   <table style="width:70%">
+    <colgroup>
+      <col style="width: 50%">
+      <col style="width: 30%">
+      <col style="width: 20%">
+    </colgroup>
+    <tbody class="tasktable">
+      <caption>Attività Proposte</caption>
+        <tr>
+          <th class="name">Nome Attività</th> 
+          <th class="type">Tipo</th> 
+          <th class="author">Proponente</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+          <td class="name">{{ task.name }}</td> 
+          <td class="type">{{ task.type }}</td> 
+          <td class="author">{{ task.author }}</td>
+          </td>
+        </tr>
+     {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <br>
+  <br>
+  <h3>Proponi nuova attività</h3> 
+  <form action="/" method="POST" style="width:70%">
      {{ add_task.hidden_tag()}} 
-     <p>{{ add_task.task.label}}
-     {{ add_task.task()}}</p>
+     <p>{{ add_task.name.label}}
+     {{ add_task.name()}}</p>
+     <p>{{ add_task.desc.label}}
+      {{ add_task.desc()}}</p>
+     <p>{% for button in add_task.type %}
+      <div>{{ button() }}{{ button.label }}</div>
+    {% endfor %}</p>
+    <p>{{ add_task.author.label}}
+      {{ add_task.author()}}</p>
      <p>{{ add_task.submit()}}</p>
    </form>
 </body>
