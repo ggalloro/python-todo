@@ -39,7 +39,7 @@ task = Table(
 
 metadata_obj.create_all(engine)
 
-types = [("mangiare","Mangiare"),("parco","Parco / Aria aperta"),("museo","Museo / Mostra")]
+types = [("Mangiare","Mangiare"),("Parco / Aria aperta","Parco / Aria aperta"),("Museo / Mostra","Museo / Mostra")]
 authors = ['Mamma','Papà','Figlio','Figlia']
 
 class AddTask(FlaskForm):
