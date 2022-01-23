@@ -3,7 +3,7 @@ import datetime
 import logging
 from flask import Flask, render_template, request, redirect, url_for, Response, flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, RadioField, TextAreaField
+from wtforms import StringField, SubmitField, RadioField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, AnyOf
 # import sqlalchemy
 from sqlalchemy import ForeignKey, create_engine, MetaData, Table, Column, Integer, String, insert
@@ -55,7 +55,8 @@ class AddTask(FlaskForm):
     name = StringField("Nome Attività", validators = [DataRequired(message="Inserire il nome dell'attività")])
     desc = TextAreaField("Descrizione e (eventuale) link")
     type = RadioField("Tipo", choices=types)
-    author = StringField("Proponente:", validators = [AnyOf(authors, message="Il proponente deve essere un componente della famiglia: %(values)s")])
+    # author = StringField("Proponente:", validators = [AnyOf(authors, message="Il proponente deve essere un componente della famiglia: %(values)s")])
+    author = SelectField("Proponente:", choices = authors)
     submit = SubmitField("Aggiungi Attività")
 
 class AddComment(FlaskForm):
@@ -101,6 +102,10 @@ def activity(id):
         conn.commit()
         return redirect(url_for("activity", id=id))
     return render_template ('activity.html', task=activity[0], comments=comments, add_comment=add_comment)
+
+@app.route('/about')
+def about():
+    return render_template ('about.html')
 
 if __name__ == "__main__":
     if environ == 'test':
