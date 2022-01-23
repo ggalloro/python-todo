@@ -6,7 +6,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, RadioField, TextAreaField
 from wtforms.validators import DataRequired, AnyOf
 # import sqlalchemy
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, insert
+from sqlalchemy import ForeignKey, create_engine, MetaData, Table, Column, Integer, String, insert
 from sqlalchemy.sql import select
 # from flask_sqlalchemy import SQLAlchemy
 import pymysql
@@ -20,6 +20,7 @@ app.config['SECRET_KEY'] = 'mysecret'
 db_user = os.environ["DB_USER"]
 db_pass = os.environ["DB_PASS"]
 db_name = os.environ["DB_NAME"]
+environ = os.environ["ENVIRON"]
 db_socket_dir = os.environ.get("DB_SOCKET_DIR", "/cloudsql")
 instance_connection_name = os.environ["INSTANCE_CONNECTION_NAME"]
 engine = create_engine('mysql+pymysql://' + db_user + ':' + db_pass + '@/' + db_name + '?unix_socket=' + db_socket_dir + '/' + instance_connection_name, echo=True, future=True)
@@ -37,9 +38,17 @@ task = Table(
     Column('author', String(20))
 )
 
+comment = Table(
+    "comment",
+    metadata_obj,
+    Column('id', Integer, primary_key=True),
+    Column('text', String(255)),
+    Column('task', ForeignKey('task.id'))
+)
+
 metadata_obj.create_all(engine)
 
-types = [("Mangiare","Mangiare"),("Parco / Aria aperta","Parco / Aria aperta"),("Museo / Mostra","Museo / Mostra")]
+types = [("Mangiare","Mangiare"),("Parco / Aria aperta","Parco / Aria aperta"),("Museo / Mostra","Museo / Mostra"), ("Vacanza","Vacanza")]
 authors = ['Mamma','Papà','Figlio','Figlia']
 
 class AddTask(FlaskForm):
@@ -48,6 +57,10 @@ class AddTask(FlaskForm):
     type = RadioField("Tipo", choices=types)
     author = StringField("Proponente:", validators = [AnyOf(authors, message="Il proponente deve essere un componente della famiglia: %(values)s")])
     submit = SubmitField("Aggiungi Attività")
+
+class AddComment(FlaskForm):
+    text = TextAreaField("Commento", validators = [DataRequired()])
+    submit = SubmitField("Aggiungi Commento")
 
 @app.route('/', methods = ["GET","POST"])
 def index():
@@ -69,13 +82,31 @@ def index():
         return redirect('/')
     return render_template("index.html", tasks=tasks, add_task=add_task)
 
+@app.route('/activity/<int:id>', methods = ["GET","POST"])
+def activity(id):
+    conn = engine.connect()
+    s = select(task).where(task.c.id == id)
+    result = conn.execute(s)
+    activity = [row for row in result]
+    
+    selcom = select(comment).where(comment.c.task == id)
+    comments = [row for row in conn.execute(selcom)]
+
+    add_comment = AddComment()
+    if add_comment.validate_on_submit():
+        comment_text = add_comment.text.data
+        ins = comment.insert()
+        conn = engine.connect()
+        result = conn.execute(ins,{"text": comment_text, "task": id})
+        conn.commit()
+        return redirect(url_for("activity", id=id))
+    return render_template ('activity.html', task=activity[0], comments=comments, add_comment=add_comment)
 
 if __name__ == "__main__":
-# Code to run as a server in GKE/Cloudrun
-#   app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
-
-# Code to test locally
-    app.run(debug=True, host="127.0.0.1", port=5000)
+    if environ == 'test':
+        app.run(debug=True, host="127.0.0.1", port=5000)
+    else:
+        app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
 
     
 

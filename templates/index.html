@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,7 +35,7 @@
         </tr>
         {% for task in tasks %}
         <tr>
-          <td class="name">{{ task.name }}</td> 
+          <td class="name"><a href="{{ url_for('activity', id=task.id) }}">{{ task.name }}</a></td> 
           <td class="type">{{ task.type }}</td> 
           <td class="author">{{ task.author }}</td>
           </td>

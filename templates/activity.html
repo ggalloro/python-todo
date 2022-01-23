@@ -1,0 +1,26 @@
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ task[1] }}</title>
+</head>
+<body>
+    <h1>{{ task[1] }}</h1>
+    <h3>Tipo di attività: {{ task[3] }}</h3>
+    <br>
+    <h3>Descrizione Attività</h3>
+    <p style="border: 1px solid black;">{{ task[2] }}</p>
+    <br>
+    <h3>Proposta da: {{ task[4] }}</h3>
+    <br>
+    <h3>Commenti</h3>
+    <ul>{% for comment in comments%}
+      <li>{{ comment[1] }}</li>
+    {% endfor %}</ul>
+    <form method="POST" style="width:70%">
+        {{ add_comment.hidden_tag()}} 
+        <p>{{ add_comment.text.label}}
+        {{ add_comment.text()}}</p>
+        <p>{{ add_comment.submit()}}</p>
+    </form>
