@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <h1>{{ task.name }}</h1>
+    <h3>Tipo di attività: {{ task.type }}</h3>
+    <br>
+    <h3>Descrizione Attività</h3>
+    <p style="border: 1px solid black;">{{ task.desc }}</p>
+    <br>
+    <h3>Proposta da: {{ task.author }}</h3>
+    <br>
+    <h3>Commenti</h3>
+    <ul>{% for comment in comments%}
+      <li>{{ comment.text|capitalize }}</li>
+    {% endfor %}</ul>
+    <form method="POST" style="width:70%">
+        {{ add_comment.hidden_tag()}} 
+        <p>{{ add_comment.text.label}}
+        {{ add_comment.text()}}</p>
+        <p>{{ add_comment.submit()}}</p>
+    </form>
+{% endblock %}
