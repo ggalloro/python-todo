@@ -10,3 +10,4 @@ read -n 1 -s
 cp test/*.py .
 cp -r test/templates .
 cp test/requirements.txt .
+echo "Code copied to repo root"

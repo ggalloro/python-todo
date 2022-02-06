@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <h1>Esegui il Login</h1>
+    <br>
+    <p>Non hai un account? <a href="{{ url_for('register') }}">Click qui per registrarti!</a></p>
+    <br>
+    <form method="POST" style="width:70%">
+        {{ form.hidden_tag()}} 
+        <p>
+            {{ form.email.label}}<br>
+            {{ form.email()}}<br>
+            {% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label}}<br>
+            {{ form.password()}}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember() }} {{ form.remember.label }}</p>
+        <p>{{ form.submit()}}</p>
+    </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+{% endblock %}

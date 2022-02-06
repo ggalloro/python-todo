@@ -3,6 +3,7 @@ from flask import Flask
 # import sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
+from flask_login import LoginManager
 
 
 app = Flask(__name__)
@@ -21,6 +22,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://' + db_user + ':' + db_
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+login = LoginManager()
+login.init_app(app)
+
+login.login_view = 'login'
 
 from routes import *
 from models import *

@@ -7,11 +7,11 @@
     <h3>Descrizione Attività</h3>
     <p style="border: 1px solid black;">{{ task.desc }}</p>
     <br>
-    <h3>Proposta da: {{ task.author }}</h3>
+    <h3>Proposta da: {{ task.author.name }}</h3>
     <br>
     <h3>Commenti</h3>
     <ul>{% for comment in comments%}
-      <li>{{ comment.text|capitalize }}</li>
+      <li>{{ comment.text|capitalize }} - {{ comment.author.name}}</li>
     {% endfor %}</ul>
     <form method="POST" style="width:70%">
         {{ add_comment.hidden_tag()}} 
@@ -19,4 +19,11 @@
         {{ add_comment.text()}}</p>
         <p>{{ add_comment.submit()}}</p>
     </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 {% endblock %}

@@ -7,10 +7,15 @@
     <title>COSE BELLE DA FARE INSIEME</title>
 </head>
   <body>
-    <!-- Insert navigation bar HTML below -->
-    <div>
+    <div class="topnav">
       <a href="{{ url_for('index') }}">Elenco Attività</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
     </div>
+    <br>
+    {% if current_user.is_authenticated %}
+        <p>Sei collegato come {{current_user.name}} {{current_user.surname}}</p>
+    {% endif %}
+    <br>
     {% block content %}
     {% endblock %}
   </body>
