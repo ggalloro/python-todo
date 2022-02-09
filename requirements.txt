@@ -5,3 +5,5 @@ wtforms
 sqlalchemy
 flask_sqlalchemy
 pymysql
+flask_login
+email_validator

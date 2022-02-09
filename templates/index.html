@@ -32,7 +32,7 @@
         <tr>
           <td class="name"><a href="{{ url_for('activity', id=task.id) }}">{{ task.name }}</a></td> 
           <td class="type">{{ task.type }}</td> 
-          <td class="author">{{ task.author }}</td>
+          <td class="author">{{ task.author.name }}</td>
           </td>
         </tr>
      {% endfor %}
@@ -52,8 +52,13 @@
      <p>{% for button in add_task.type %}
       <div>{{ button() }}{{ button.label }}</div>
     {% endfor %}</p>
-    <p>{{ add_task.author.label}}
-      {{ add_task.author()}}</p>
      <p>{{ add_task.submit()}}</p>
    </form>
+   {% with messages = get_flashed_messages() %}
+   {% if messages %}
+       {% for message in messages %}
+           {{ message }}
+       {% endfor %}
+   {% endif %}
+{% endwith %}
 {% endblock %}
