@@ -7,7 +7,7 @@ echo
 echo "If not in repo root break and re-run"
 echo
 read -n 1 -s
-cp test/*.py .
-cp -r test/templates .
-cp test/requirements.txt .
+cp -v test/*.py .
+cp -vr test/templates .
+cp -v test/requirements.txt .
 echo "Code copied to repo root"

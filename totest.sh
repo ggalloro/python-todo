@@ -7,7 +7,7 @@ echo
 echo "If not in repo root break and re-run"
 echo
 read -n 1 -s
-cp *.py test/
-cp -r templates test/
-cp requirements.txt test/
+cp -v *.py test/
+cp -vr templates test/
+cp -v requirements.txt test/
 echo "Code copied to test folder"

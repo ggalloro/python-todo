@@ -17,6 +17,7 @@ class AddComment(FlaskForm):
     text = TextAreaField("Commento", validators = [DataRequired()])
     submit = SubmitField("Aggiungi Commento")
 
+
 class RegisterForm(FlaskForm):
     name = StringField("Nome", validators = [DataRequired()])
     surname = StringField("Cognome", validators = [DataRequired()])
@@ -31,3 +32,5 @@ class LoginForm(FlaskForm):
     remember = BooleanField("Remember Me")
     submit = SubmitField("Login")
 
+class DeleteTask(FlaskForm):
+    submit = SubmitField("Conferma Eliminazione")

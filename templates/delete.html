@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <h1>Conferma Eliminazione</h1>
+    <br>
+    <h3>Sei sicuro di voler eliminare l'attività {{ task.name }}, che tu hai proposto ?</h3>
+    {% if current_user.id == task.author_id %}
+        <form method="POST">
+            {{ delete_task.hidden_tag()}} 
+            <p>{{ delete_task.submit()}}</p>
+    {% endif %}
+    <br>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+{% endblock %}

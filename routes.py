@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for, Response, flash
 # import sqlalchemy
 from app import app,db
 from models import Task, Comment, User
-from forms import AddTask, AddComment, RegisterForm, LoginForm
+from forms import LoginForm, RegisterForm, AddTask, AddComment, DeleteTask
 from flask_login import login_required, current_user, login_user, logout_user
 from werkzeug.urls import url_parse
 
@@ -47,10 +47,7 @@ def logout():
 @app.route('/', methods = ["GET","POST"])
 @login_required
 def index():
-    # commented the following to try the join to get author name from task table
-    # tasks = Task.query.all()
-    # tasks = Task.query.join(User, User.id == Task.author_id).add_columns(Task.name, Task.type, User.name).all()
-    # another attempt
+
     tasks = Task.query.join(User).all()
     
     add_task = AddTask()
@@ -64,10 +61,7 @@ def index():
 @app.route('/activity/<int:id>', methods = ["GET","POST"])
 @login_required
 def activity(id):
-    # commented to try Join to show user name
-    # activity = Task.query.filter_by(id=id).first()
     activity = Task.query.filter_by(id=id).join(User).first()
-    
     comments = Comment.query.filter_by(task_id=id).join(User).all()
 
     add_comment = AddComment()
@@ -78,6 +72,24 @@ def activity(id):
         return redirect(url_for("activity", id=id))
 
     return render_template ('activity.html', task=activity, comments=comments, add_comment=add_comment)
+
+
+@app.route('/delete/<int:id>', methods = ["GET","POST"])
+@login_required
+def delete(id):
+    activity = Task.query.filter_by(id=id).join(User).first()
+    activity_comments = Comment.query.filter_by(task_id=id).all()
+    
+    delete_task = DeleteTask()
+    if delete_task.validate_on_submit():
+        if current_user.id == activity.author.id:
+            Comment.query.filter_by(task_id=id).delete()
+            db.session.delete(Task.query.get(id))
+            db.session.commit()
+            return redirect(url_for("index"))
+        else:
+            flash("Non puoi cancellare l'attività")
+    return render_template ('delete.html', task=activity, delete_task=delete_task)
 
 @app.route('/about')
 @login_required

@@ -8,6 +8,9 @@
     <p style="border: 1px solid black;">{{ task.desc }}</p>
     <br>
     <h3>Proposta da: {{ task.author.name }}</h3>
+    {% if current_user.id == task.author_id %}
+        <a href="{{ url_for('delete', id=task.id) }}">Elimina quest'attività</a>
+    {% endif %}
     <br>
     <h3>Commenti</h3>
     <ul>{% for comment in comments%}
