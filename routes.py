@@ -78,7 +78,6 @@ def activity(id):
 @login_required
 def delete(id):
     activity = Task.query.filter_by(id=id).join(User).first()
-    activity_comments = Comment.query.filter_by(task_id=id).all()
     
     delete_task = DeleteTask()
     if delete_task.validate_on_submit():
