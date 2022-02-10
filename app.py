@@ -1,9 +1,7 @@
 import os
 from flask import Flask
 # import sqlalchemy
-from sqlalchemy import ForeignKey, create_engine, MetaData, Table, Column, Integer, String, insert
-from sqlalchemy.sql import select
-# from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 import pymysql
 from flask_login import LoginManager
 
@@ -34,9 +32,6 @@ from models import *
 
 db.create_all()
 
-class AddComment(FlaskForm):
-    text = TextAreaField("Commento", validators = [DataRequired()])
-    submit = SubmitField("Aggiungi Commento")
 
 
 if __name__ == "__main__":

@@ -55,7 +55,7 @@ def index():
         new_task = Task(name = add_task.name.data, desc=add_task.desc.data, type=add_task.type.data, author_id=current_user.id)
         db.session.add(new_task)
         db.session.commit()
-        return redirect('/')
+        return redirect(url_for("activity", id=new_task.id))
     return render_template("index.html", tasks = tasks, add_task=add_task)
 
 @app.route('/activity/<int:id>', methods = ["GET","POST"])
