@@ -1,6 +1,4 @@
 #!/bin/bash
-# This version of the script works only with GNU sed
-# If using a mac, please run setup.sh
 echo 
 echo "Verify you are running this from the repo root"
 echo
