@@ -7,3 +7,6 @@ flask_sqlalchemy
 pymysql
 flask_login
 email_validator
+oauthlib
+requests
+pyOpenSSL

@@ -14,7 +14,8 @@
       {% endif %}
     </div>
     {% if current_user.is_authenticated %}
-        <p>Sei collegato come {{current_user.name}} {{current_user.surname}}</p>
+        <p>Sei collegato come {{current_user.name}}</p>
+        <img src="{{ current_user.profile_pic }}"" alt="Google profile pic"></img></div>
     {% else %}
         <p>Utente non autenticato</p>
     {% endif %}
