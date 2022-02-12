@@ -10,6 +10,8 @@ from flask_login import LoginManager
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
 
+# Oauth issues debug attempts
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 # Connection String Old Style
 db_user = os.environ["DB_USER"]
