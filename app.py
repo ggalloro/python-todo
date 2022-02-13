@@ -12,7 +12,7 @@ app.config['SECRET_KEY'] = 'mysecret'
 
 # Oauth issues debug attempts - 2 lines
 # os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-app = ProxyFix(app, x_proto=1)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
 
 # Connection String Old Style
 db_user = os.environ["DB_USER"]
