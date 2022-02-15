@@ -83,13 +83,20 @@ def callback():
 
     # Create a user in our db with the information provided
     # by Google
+    if not User.query.filter_by(email=users_email).first():
+        return redirect(url_for('unauthorized'))
     user = User(
         id=unique_id, name=users_name, email=users_email, profile_pic=picture
     )
-
+    
     # Doesn't exist? Add to database
     if not User.get(unique_id):
-        User.create(unique_id, users_name, users_email, picture)
+        new_user = User.query.filter_by(email=users_email).first()
+        new_user.id = unique_id
+        new_user.name = users_name
+        new_user.profile_pic = picture
+        db.session.commit()
+#        User.create(unique_id, users_name, users_email, picture)
 
     # Begin user session by logging the user in
     login_user(user)
@@ -119,7 +126,7 @@ def index():
             new_task = Task(name = add_task.name.data, desc=add_task.desc.data, type=add_task.type.data, author_id=current_user.id)
             db.session.add(new_task)
             db.session.commit()
-            return redirect(url_for("activity", id=new_task.id))
+            return redirect(url_for("index"))
         return render_template("index.html", tasks = tasks, add_task=add_task)
     else:
         return (
@@ -164,5 +171,9 @@ def delete(id):
 @login_required
 def about():
     return render_template ('about.html')
+
+@app.route('/unauthorized')
+def unauthorized():
+    return render_template ('unauthorized.html')
 
 

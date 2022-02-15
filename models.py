@@ -18,7 +18,7 @@ class Comment(db.Model):
     task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.String(255), primary_key = True)
+    id = db.Column(db.String(100), primary_key = True)
     name = db.Column(db.String(50), index = True)
     email = db.Column(db.String(50), index = True, unique = True)
     profile_pic = db.Column(db.String(120), index = True)
