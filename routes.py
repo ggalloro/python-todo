@@ -143,7 +143,7 @@ def activity(id):
 
     add_comment = AddComment()
     if add_comment.validate_on_submit():
-        new_comment = Comment(text = add_comment.text.data, task_id = id, author_id = current_user.id)
+        new_comment = Comment(text = add_comment.text.data, task_id = id, author_id = current_user.id, rating = add_comment.rating.data)
         db.session.add(new_comment)
         db.session.commit()
         return redirect(url_for("activity", id=id))

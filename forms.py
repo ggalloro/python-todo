@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Email, EqualTo
 
 types = [("Mangiare","Mangiare"),("Parco / Aria aperta","Parco / Aria aperta"),("Museo / Mostra","Museo / Mostra"), ("Vacanza","Vacanza")]
 # authors = ['Mamma','Papà','Figlio','Figlia']
+ratings = [(1,'Non mi piace'), (2,'Non male'), (3,'Bellissimo!')]
 
 class AddTask(FlaskForm):
     name = StringField("Nome Attività", validators = [DataRequired(message="Inserire il nome dell'attività")])
@@ -15,7 +16,8 @@ class AddTask(FlaskForm):
 
 class AddComment(FlaskForm):
     text = TextAreaField("Commento", validators = [DataRequired()])
-    submit = SubmitField("Aggiungi Commento")
+    rating = RadioField("Valutazione:", choices=ratings )
+    submit = SubmitField("Aggiungi Commento/Valutazione")
 
 
 class RegisterForm(FlaskForm):

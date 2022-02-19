@@ -14,6 +14,7 @@ class Task(db.Model):
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     text = db.Column(db.String(255), index = True)
+    rating = db.Column(db.Integer, index = True)
     author_id = db.Column(db.String(100), db.ForeignKey('user.id'))
     task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
 

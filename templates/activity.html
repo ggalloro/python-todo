@@ -12,14 +12,16 @@
         <a href="{{ url_for('delete', id=task.id) }}">Elimina quest'attività</a>
     {% endif %}
     <br>
-    <h3>Commenti</h3>
+    <h3>Commenti e Valutazioni</h3>
     <ul>{% for comment in comments%}
-      <li>{{ comment.text|capitalize }} - {{ comment.author.name}}</li>
+      <li>{{ comment.text|capitalize }} - {{ comment.rating}} - {{ comment.author.name}}</li>
     {% endfor %}</ul>
     <form method="POST" style="width:70%">
         {{ add_comment.hidden_tag()}} 
         <p>{{ add_comment.text.label}}
         {{ add_comment.text()}}</p>
+        <p>{{ add_comment.rating.label}}
+        {{ add_comment.rating()}}</p>
         <p>{{ add_comment.submit()}}</p>
     </form>
     {% with messages = get_flashed_messages() %}
